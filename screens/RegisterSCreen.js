@@ -2,32 +2,54 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, StatusBar } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
-import * as firebase from 'firebase'
+import Fire from '../Config/Fire'
+import UserPermissions from '../utilities/UserPermissions'
+import * as ImagePicker from 'expo-image-picker'
 
 // create a component
 class RegisterScreen extends Component {
-    static navigationOptions = {
-        headerShown: false
-    }
+  static navigationOptions = {
+    headerShown: false,
+  };
 
   state = {
-    name: "",
-    email: "",
-    password: "",
+    user: {
+      name: "",
+      email: "",
+      password: "",
+      avatar: null,
+    },
     errorMessage: null,
   };
 
-  handleSignUp =() => {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then((userCredentials) => {
-          return userCredentials.user.updateProfile({
-            displayName: this.state.name,
-          });
-        })
-        .catch((error) => this.setState({ errorMessage: error.message }));
+  handlePickAvatar = async() => {
+    UserPermissions.getCameraPermission()
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Image,
+      allowsEditing: true,
+      aspect: [4, 3]
+    })
+
+    if (!result.cancelled){
+      this.setState({user: {...this.state.user, avatar: result.uri}})
+    }
   }
+
+  handleSignUp = () => {
+    // firebase
+    //   .auth()
+    //   .createUserWithEmailAndPassword(this.state.email, this.state.password)
+    //   .then((userCredentials) => {
+    //     return userCredentials.user.updateProfile({
+    //       displayName: this.state.name,
+    //     });
+    //   })
+    //   .catch((error) => this.setState({ errorMessage: error.message }));
+
+    Fire.shared.createUser(this.state.user)
+
+  };
 
   render() {
     return (
@@ -37,15 +59,6 @@ class RegisterScreen extends Component {
           source={require("../assets/authHeader.png")}
           style={{ width: "100%", height: "30%" }}
         ></Image>
-        {/* <Image
-          source={require("../assets/loginLogo.png")}
-          style={{
-            alignSelf: "center",
-            width: 100,
-            height: 100,
-            marginTop: -120,
-          }}
-        ></Image> */}
         <TouchableOpacity
           style={styles.back}
           onPress={() => this.props.navigation.goBack()}
@@ -67,8 +80,12 @@ class RegisterScreen extends Component {
           <Text
             style={styles.greeting}
           >{`Hello!\nSign up to get started.`}</Text>
-          <TouchableOpacity style={styles.avatar}>
-              <Ionicons name='ios-add' size={40} color='white'></Ionicons>
+          <TouchableOpacity style={styles.avatarPlaceholder} onPress={this.handlePickAvatar}>
+            <Image
+              source={{ uri: this.state.user.avatar }}
+              style={styles.avatar}
+            />
+            <Ionicons name="ios-add" size={40} color="white"></Ionicons>
           </TouchableOpacity>
         </View>
         <View style={styles.errorMessage}>
@@ -82,8 +99,8 @@ class RegisterScreen extends Component {
             <TextInput
               style={styles.input}
               autoCapitalize="none"
-              onChangeText={(name) => this.setState({ name })}
-              value={this.state.name}
+              onChangeText={(name) => this.setState({ user: {...this.state.user, name} })}
+              value={this.state.user.name}
             ></TextInput>
           </View>
           <View style={{ marginTop: 32 }}>
@@ -91,8 +108,8 @@ class RegisterScreen extends Component {
             <TextInput
               style={styles.input}
               autoCapitalize="none"
-              onChangeText={(email) => this.setState({ email })}
-              value={this.state.email}
+              onChangeText={(email) => this.setState({ user: {...this.state.user, email} })}
+              value={this.state.user.email}
             ></TextInput>
           </View>
           <View style={{ marginTop: 32 }}>
@@ -101,8 +118,8 @@ class RegisterScreen extends Component {
               style={styles.input}
               secureTextEntry
               autoCapitalize="none"
-              onChangeText={(password) => this.setState({ password })}
-              value={this.state.password}
+              onChangeText={(password) => this.setState({ user: {...this.state.user, password} })}
+              value={this.state.user.password}
             ></TextInput>
           </View>
         </View>
@@ -128,73 +145,79 @@ class RegisterScreen extends Component {
 
 // define your styles
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-    greeting: {
-        marginTop: 32,
-        fontSize: 18,
-        fontWeight: '400',
-        textAlign: 'center',
-        color: 'white'
-    },
-    errorMessage:{
-        height: 72,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginHorizontal: 30,
-    },
-    error: {
-        color: '#e9446A',
-        fontSize: 13,
-        fontWeight: '600',
-        textAlign: 'center',
-    },
-    form: {
-        marginBottom: 48,
-        marginHorizontal: 30,
-    },
-    inputTitle: {
-        color: '#8A8F9E',
-        fontSize: 10,
-        textTransform: 'uppercase',
-    },
-    input: {
-        borderBottomColor: '#8A8F9E',
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        height: 40,
-        fontSize: 15,
-        color: '#161F3D',
-    },
-    button: {
-        marginHorizontal: 50,
-        backgroundColor: '#E9446A',
-        borderRadius: 4,
-        height: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    back: {
-        position: 'absolute',
-        top: 30,
-        left: 24,
-        width: 32,
-        height: 32,
-        borderRadius: 16,
-        backgroundColor: 'rgba(21, 22, 48, 0.1)',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    avatar: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        backgroundColor: '#E1E2E6',
-        marginTop: 48,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  greeting: {
+    marginTop: 32,
+    fontSize: 18,
+    fontWeight: "400",
+    textAlign: "center",
+    color: "white",
+  },
+  errorMessage: {
+    height: 72,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 30,
+  },
+  error: {
+    color: "#e9446A",
+    fontSize: 13,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  form: {
+    marginBottom: 48,
+    marginHorizontal: 30,
+  },
+  inputTitle: {
+    color: "#8A8F9E",
+    fontSize: 10,
+    textTransform: "uppercase",
+  },
+  input: {
+    borderBottomColor: "#8A8F9E",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    height: 40,
+    fontSize: 15,
+    color: "#161F3D",
+  },
+  button: {
+    marginHorizontal: 50,
+    backgroundColor: "#E9446A",
+    borderRadius: 4,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  back: {
+    position: "absolute",
+    top: 30,
+    left: 24,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(21, 22, 48, 0.1)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  avatarPlaceholder: {
+    width: 100,
+    height: 100,
+    backgroundColor: "#E1E2E6",
+    borderRadius: 50,
+    marginTop: 28,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  avatar: {
+    position: "absolute",
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+  },
 });
 
 //make this component available to the app
