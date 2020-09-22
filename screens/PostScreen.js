@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, TextInpu
 import { Ionicons } from "@expo/vector-icons";
 import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
-import Fire from '../Fire'
+import Fire from '../Config/Fire'
 import * as ImagePicker from 'expo-image-picker'
 
 const firebase = require('firebase')
