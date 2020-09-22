@@ -6,6 +6,7 @@ import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
 import Fire from '../Config/Fire'
 import * as ImagePicker from 'expo-image-picker'
+import UserPermissions from '../utilities/UserPermissions'
 
 const firebase = require('firebase')
 require('firebase/firestore')
@@ -19,25 +20,9 @@ class PostScreen extends Component {
   }
 
   componentDidMount() {
-    this.getPhotoPermission();
+    UserPermissions.getCameraPermission()
   }
-
-  getPhotoPermission = async () => {
-    if(Constants.platform.ios) {
-      const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-
-      if (status != 'granted') {
-        alert('We need permission to access your camera roll');
-      }
-    }else if(Constants.platform.android){
-      const {status} = await Permissions.askAsync(Permissions.CAMERA_ROLL)
-
-      if (status != 'granted') {
-        alert('We need permission to access your camera roll');
-      }
-    }
-  }
-
+  
   handlePost = () => {
     Fire.shared
       .addPost({ text: this.state.text.trim(), localUri: this.state.image })
@@ -73,7 +58,7 @@ class PostScreen extends Component {
                 ></Ionicons>
               </TouchableOpacity>
               <TouchableOpacity onPress={this.handlePost}>
-                <Text style={{ fontWeight: "500" }}>Post</Text>
+                <Text style={{ fontWeight: "500", fontSize: 15 }}>Post</Text>
               </TouchableOpacity>
             </View>
 
@@ -106,32 +91,33 @@ class PostScreen extends Component {
 
 // define your styles
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-         marginTop: 10
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 32,
-        paddingVertical: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: '#D8D9DB'
-    },
-    inputContainer: {
-        margin: 32,
-        flexDirection: 'row',
-    },
-    avatar: {
-        width: 48,
-        height:48,
-        borderRadius: 24,
-        marginRight: 16,
-    },
-    photo: {
-        alignItems: 'flex-end',
-        marginHorizontal: 32
-    }
+  container: {
+    flex: 1,
+    marginTop: 30,
+    backgroundColor: 'white',
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#D8D9DB",
+  },
+  inputContainer: {
+    margin: 32,
+    flexDirection: "row",
+  },
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    marginRight: 16,
+  },
+  photo: {
+    alignItems: "flex-end",
+    marginHorizontal: 32,
+  },
 });
 
 //make this component available to the app
