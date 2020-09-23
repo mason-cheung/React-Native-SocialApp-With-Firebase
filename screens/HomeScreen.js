@@ -1,8 +1,9 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
-import {Ionicons} from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import moment from 'moment'
+import Fire from '../Config/Fire'
 
 // Temporary list data
 const posts = [
@@ -11,72 +12,72 @@ const posts = [
     name: "Michael Hallorina",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus, leo id vulputate scelerisque, enim justo ultrices eros, quis pretium ipsum ipsum sit amet enim. Ut non eleifend eros. Sed imperdiet tellus eget aliquam vehicula. Vestibulum ut rutrum nibh. Nunc blandit vel purus vel dictum. Vivamus sed egestas nibh. Suspendisse potenti.",
-      timestamp: 1600646400123,
-      avatar: require('../assets/tempAvatar.jpg'),
-      image: require('../assets/tempImage1.jpg')
+    timestamp: 1600646400123,
+    avatar: require('../assets/tempAvatar.jpg'),
+    image: require('../assets/tempImage1.jpg')
   },
   {
     id: "2",
     name: "Goran Illeviski",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus, leo id vulputate scelerisque, enim justo ultrices eros, quis pretium ipsum ipsum sit amet enim. Ut non eleifend eros. Sed imperdiet tellus eget aliquam vehicula. Vestibulum ut rutrum nibh. Nunc blandit vel purus vel dictum. Vivamus sed egestas nibh. Suspendisse potenti.",
-      timestamp: 1600646400123,
-      avatar: require('../assets/tempAvatar.jpg'),
-      image: require('../assets/tempImage2.jpg')
+    timestamp: 1600646400123,
+    avatar: require('../assets/tempAvatar.jpg'),
+    image: require('../assets/tempImage2.jpg')
   },
   {
     id: "3",
     name: "Haymond",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus, leo id vulputate scelerisque, enim justo ultrices eros, quis pretium ipsum ipsum sit amet enim. Ut non eleifend eros. Sed imperdiet tellus eget aliquam vehicula. Vestibulum ut rutrum nibh. Nunc blandit vel purus vel dictum. Vivamus sed egestas nibh. Suspendisse potenti.",
-      timestamp: 1600646400123,
-      avatar: require('../assets/tempAvatar.jpg'),
-      image: require('../assets/tempImage3.jpg')
+    timestamp: 1600646400123,
+    avatar: require('../assets/tempAvatar.jpg'),
+    image: require('../assets/tempImage3.jpg')
   },
   {
     id: "4",
     name: "Ashely",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus, leo id vulputate scelerisque, enim justo ultrices eros, quis pretium ipsum ipsum sit amet enim. Ut non eleifend eros. Sed imperdiet tellus eget aliquam vehicula. Vestibulum ut rutrum nibh. Nunc blandit vel purus vel dictum. Vivamus sed egestas nibh. Suspendisse potenti.",
-      timestamp: 1600646400123,
-      avatar: require('../assets/tempAvatar.jpg'),
-      image: require('../assets/tempImage4.jpg')
+    timestamp: 1600646400123,
+    avatar: require('../assets/tempAvatar.jpg'),
+    image: require('../assets/tempImage4.jpg')
   },
   {
     id: "5",
     name: "Haley",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus, leo id vulputate scelerisque, enim justo ultrices eros, quis pretium ipsum ipsum sit amet enim. Ut non eleifend eros. Sed imperdiet tellus eget aliquam vehicula. Vestibulum ut rutrum nibh. Nunc blandit vel purus vel dictum. Vivamus sed egestas nibh. Suspendisse potenti.",
-      timestamp: 1600646400123,
-      avatar: require('../assets/tempAvatar.jpg'),
-      image: require('../assets/tempImage1.jpg')
+    timestamp: 1600646400123,
+    avatar: require('../assets/tempAvatar.jpg'),
+    image: require('../assets/tempImage1.jpg')
   },
   {
     id: "6",
     name: "Mason",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus, leo id vulputate scelerisque, enim justo ultrices eros, quis pretium ipsum ipsum sit amet enim. Ut non eleifend eros. Sed imperdiet tellus eget aliquam vehicula. Vestibulum ut rutrum nibh. Nunc blandit vel purus vel dictum. Vivamus sed egestas nibh. Suspendisse potenti.",
-      timestamp: 1600646400123,
-      avatar: require('../assets/tempAvatar.jpg'),
-      image: require('../assets/tempImage2.jpg')
+    timestamp: 1600646400123,
+    avatar: require('../assets/tempAvatar.jpg'),
+    image: require('../assets/tempImage2.jpg')
   },
   {
     id: "7",
     name: "Stanley",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus, leo id vulputate scelerisque, enim justo ultrices eros, quis pretium ipsum ipsum sit amet enim. Ut non eleifend eros. Sed imperdiet tellus eget aliquam vehicula. Vestibulum ut rutrum nibh. Nunc blandit vel purus vel dictum. Vivamus sed egestas nibh. Suspendisse potenti.",
-      timestamp: 1600646400123,
-      avatar: require('../assets/tempAvatar.jpg'),
-      image: require('../assets/tempImage3.jpg')
+    timestamp: 1600646400123,
+    avatar: require('../assets/tempAvatar.jpg'),
+    image: require('../assets/tempImage3.jpg')
   },
   {
     id: "8",
     name: "Victorie",
     text:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus, leo id vulputate scelerisque, enim justo ultrices eros, quis pretium ipsum ipsum sit amet enim. Ut non eleifend eros. Sed imperdiet tellus eget aliquam vehicula. Vestibulum ut rutrum nibh. Nunc blandit vel purus vel dictum. Vivamus sed egestas nibh. Suspendisse potenti.",
-      timestamp: 1600646400123,
-      avatar: require('../assets/tempAvatar.jpg'),
-      image: require('../assets/tempImage4.jpg')
+    timestamp: 1600646400123,
+    avatar: require('../assets/tempAvatar.jpg'),
+    image: require('../assets/tempImage4.jpg')
   },
 
 ];
@@ -84,55 +85,68 @@ const posts = [
 
 // create a component
 class HomeScreen extends Component {
-    static navigationOptions = {
-        headerShown: false
-    }
+  static navigationOptions = {
+    headerShown: false
+  }
 
-    renderPost = post => {
-        return (
-          <View style={styles.feedItem}>
-            <Image source={post.avatar} style={styles.avatar} />
-            <View style={{ flex: 1 }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <Text style={styles.name}>{post.name}</Text>
-                  <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
-                </View>
-                <Ionicons name='ios-more' size={24} color='#73788B' />
-              </View>
-              <Text style={styles.post}>{post.text}</Text>
-              <Image source={post.image} style={styles.postImage} resizeMode='cover' />
-              <View style={{flexDirection: 'row'}}>
-                  <Ionicons name='ios-heart-empty' size={24} color='#73788B' style={{marginRight: 16}} />
-                  <Ionicons name='ios-chatboxes' size={24} color='#73788B' />
-              </View>
-            </View>
-          </View>
-        );
-    }
+  // componentDidMount() {
+  //   console.log('Mounted')
+  //   Fire.shared.firestore.collection('Posts').get().then(snapshot => {
+  //     const posts = []
+  //     snapshot.forEach(doc => {
+  //       const data = doc.data()
+  //       posts.push(data)
+  //     })
+  //     this.setState({ posts: posts })
+  //     //console.log(snapshot)
+  //   }).catch(error => console.log(error))
+  // }
 
-    render() {
-        return (
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>Feed</Text>
+  renderPost = post => {
+    return (
+      <View style={styles.feedItem}>
+        <Image source={post.avatar} style={styles.avatar} />
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <View>
+              <Text style={styles.name}>{post.name}</Text>
+              <Text style={styles.timestamp}>{moment(post.timestamp).fromNow()}</Text>
             </View>
-            <FlatList
-              style={styles.feed}
-              data={posts}
-              renderItem={({ item }) => this.renderPost(item)}
-              keyExtractor={(item) => item.id}
-              showsVerticalScrollIndicator={false}
-            ></FlatList>
+            <Ionicons name='ios-more' size={24} color='#73788B' />
           </View>
-        );
-    }
+          <Text style={styles.post}>{post.text}</Text>
+          <Image source={post.image} style={styles.postImage} resizeMode='cover' />
+          <View style={{ flexDirection: 'row' }}>
+            <Ionicons name='ios-heart-empty' size={24} color='#73788B' style={{ marginRight: 16 }} />
+            <Ionicons name='ios-chatboxes' size={24} color='#73788B' />
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Feed</Text>
+        </View>
+        <FlatList
+          style={styles.feed}
+          data={posts}
+          renderItem={({ item }) => this.renderPost(item)}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+        ></FlatList>
+      </View>
+    );
+  }
 }
 
 // define your styles
@@ -142,7 +156,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EFECF4",
   },
   header: {
-    paddingTop: 64,
+    paddingTop: 24,
     paddingBottom: 16,
     backgroundColor: "white",
     alignItems: "center",
@@ -155,45 +169,45 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   headerTitle: {
-      fontSize: 20,
-      fontWeight: '500',
+    fontSize: 20,
+    fontWeight: '500',
   },
   feed: {
-      marginHorizontal: 16,
+    marginHorizontal: 16,
   },
   feedItem: {
-      backgroundColor: 'white',
-      borderRadius: 5,
-      padding: 8,
-      flexDirection: 'row',
-      marginVertical: 8,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    padding: 8,
+    flexDirection: 'row',
+    marginVertical: 8,
   },
   avatar: {
-      width: 36,
-      height: 36,
-      borderRadius: 18,
-      marginRight: 16,  
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 16,
   },
   name: {
-      fontSize: 15,
-      fontWeight: '500',
-      color: '#454D65'
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#454D65'
   },
   timestamp: {
-      fontSize: 11,
-      color: '#C4C6CE',
-      marginTop: 4,
+    fontSize: 11,
+    color: '#C4C6CE',
+    marginTop: 4,
   },
   post: {
-      marginTop: 16,
-      fontSize: 14,
-      color: '#838899'
+    marginTop: 16,
+    fontSize: 14,
+    color: '#838899'
   },
   postImage: {
-      width: undefined,
-      height: 150,
-      borderRadius: 5,
-      marginVertical: 16,
+    width: undefined,
+    height: 150,
+    borderRadius: 5,
+    marginVertical: 16,
   }
 });
 
