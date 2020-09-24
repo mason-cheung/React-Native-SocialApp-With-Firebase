@@ -36,7 +36,7 @@ class ProfileScreen extends Component {
                   style={styles.avatar}
                   source={
                     this.state.user.avatar
-                      ? { uri: this.state.user.avatar }
+                      ? { uri: this.state.user.avatar } || ''
                       : require("../assets/tempAvatar.jpg")
                   }
                 />

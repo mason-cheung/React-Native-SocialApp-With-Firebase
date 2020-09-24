@@ -160,6 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   feed: {
+    marginTop: 10,
     marginHorizontal: 16,
   },
   feedItem: {
@@ -176,6 +177,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   name: {
+    marginTop: 5,
     fontSize: 15,
     fontWeight: '500',
     color: '#454D65'
