@@ -89,19 +89,6 @@ class HomeScreen extends Component {
     headerShown: false
   }
 
-  // componentDidMount() {
-  //   console.log('Mounted')
-  //   Fire.shared.firestore.collection('Posts').get().then(snapshot => {
-  //     const posts = []
-  //     snapshot.forEach(doc => {
-  //       const data = doc.data()
-  //       posts.push(data)
-  //     })
-  //     this.setState({ posts: posts })
-  //     //console.log(snapshot)
-  //   }).catch(error => console.log(error))
-  // }
-
   renderPost = post => {
     return (
       <View style={styles.feedItem}>
