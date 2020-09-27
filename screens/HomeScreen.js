@@ -86,8 +86,6 @@ class HomeScreen extends Component {
     super(props);
     this.state = {
       listPost: [],
-      avatar: this.avatar,
-      name: this.name,
     };
     this.ref = firebase.firestore().collection("Posts");
   }
@@ -100,7 +98,6 @@ class HomeScreen extends Component {
       const post = [];
       querySnapshot.forEach((doc) => {
         post.push({
-          postId: doc.data().uid,
           postText: doc.data().text,
           ...doc.data(),
         });
@@ -134,7 +131,7 @@ class HomeScreen extends Component {
           </View>
           <Text style={styles.post}>{listPost.postText}</Text>
           <Image
-            source={listPost.postImage}
+            source={listPost.image}
             style={styles.image}
             resizeMode="cover"
           />
